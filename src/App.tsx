@@ -24,16 +24,16 @@ const AnimatedRoutes = () => {
   const location = useLocation();
   
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="wait" initial={false}>
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Index />} />
         <Route path="/what-we-do" element={<WhatWeDo />} />
-          <Route path="/cultivating-processing" element={<CultivatingProcessing />} />
-          <Route path="/manufacture-distribution" element={<ManufactureDistribution />} />
-          <Route path="/conditions" element={<Conditions />} />
-          <Route path="/conditions/:conditionId" element={<ConditionRouter />} />
-          <Route path="/medical-clinics" element={<MedicalClinics />} />
-          <Route path="/online-pharmacy" element={<OnlinePharmacy />} />
+        <Route path="/cultivating-processing" element={<CultivatingProcessing />} />
+        <Route path="/manufacture-distribution" element={<ManufactureDistribution />} />
+        <Route path="/conditions" element={<Conditions />} />
+        <Route path="/conditions/:conditionId" element={<ConditionRouter />} />
+        <Route path="/medical-clinics" element={<MedicalClinics />} />
+        <Route path="/online-pharmacy" element={<OnlinePharmacy />} />
         <Route path="/research" element={<Research />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/contact" element={<Contact />} />
