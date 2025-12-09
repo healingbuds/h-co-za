@@ -12,23 +12,23 @@ interface SEOHeadProps {
 }
 
 const SEOHead = ({
-  title = 'Healing Buds Global | Medical Cannabis Solutions',
-  description = 'Pioneering tomorrow\'s medical cannabis solutions. EU GMP-certified products, blockchain traceability, and global distribution across UK, South Africa, Thailand, and Portugal.',
-  keywords = 'medical cannabis, CBD, THC, EU GMP, blockchain traceability, medical marijuana, cannabis clinics, cannabis research, Healing Buds',
+  title = 'Healing Buds | Shaping the Future of Cannabis',
+  description = 'Leading the world in cannabis research and EU GMP-certified medical cannabis products. Consistently delivering superior products and driving global acceptance.',
+  keywords = 'medical cannabis, CBD, THC, EU GMP, cannabis research, Healing Buds, Portugal cannabis, medical marijuana',
   canonical,
   ogImage = '/assets/hb-logo-square.png',
   ogType = 'website',
   twitterCard = 'summary_large_image',
   structuredData,
 }: SEOHeadProps) => {
-  const baseUrl = 'https://healingbuds.co.uk';
+  const baseUrl = 'https://healingbuds.pt';
   const fullCanonical = canonical ? `${baseUrl}${canonical}` : baseUrl;
   const fullOgImage = ogImage.startsWith('http') ? ogImage : `${baseUrl}${ogImage}`;
 
   const defaultStructuredData = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'Healing Buds Global',
+    name: 'Healing Buds',
     url: baseUrl,
     logo: `${baseUrl}/assets/hb-logo-square.png`,
     description: description,
@@ -38,7 +38,7 @@ const SEOHead = ({
     ],
     contactPoint: {
       '@type': 'ContactPoint',
-      email: 'info@healingbuds.com',
+      email: 'info@healingbuds.pt',
       contactType: 'customer service',
     },
   };
@@ -52,7 +52,7 @@ const SEOHead = ({
       <meta name="keywords" content={keywords} />
       <meta name="robots" content="index, follow" />
       <meta name="language" content="English" />
-      <meta name="author" content="Healing Buds Global" />
+      <meta name="author" content="Healing Buds" />
       <link rel="canonical" href={fullCanonical} />
 
       {/* Open Graph / Facebook */}
@@ -61,8 +61,8 @@ const SEOHead = ({
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content={fullOgImage} />
-      <meta property="og:site_name" content="Healing Buds Global" />
-      <meta property="og:locale" content="en_GB" />
+      <meta property="og:site_name" content="Healing Buds" />
+      <meta property="og:locale" content="pt_PT" />
 
       {/* Twitter */}
       <meta name="twitter:card" content={twitterCard} />
