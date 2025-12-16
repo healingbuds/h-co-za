@@ -1,53 +1,61 @@
-name: Deploy HealingBuds to cPanel
+name: Auto Deploy to cPanel (Validated)
 
 on:
   push:
-    branches: [main]
-  workflow_dispatch: # Allow manual triggers
+    branches:
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
 
     steps:
-      - name: Checkout code
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Check for merge conflicts
+      - name: Verify GitHub Workspace
         run: |
-          echo "Checking for merge conflict markers..."
-          if grep -r "<<<<<<< HEAD\|=======\|>>>>>>>" --include="*.html" --include="*.tsx" --include="*.ts" --include="*.jsx" --include="*.js" --include="*.css" .; then
-            echo "❌ ERROR: Merge conflict markers found in source files!"
-            echo "Please resolve all conflicts before deploying."
+          echo "Current workspace:"
+          pwd
+          echo "Workspace contents:"
+          ls -la
+          if [ ! -f "index.php" ] && [ ! -f "index.html" ]; then
+            echo "ERROR: No index.php or index.html found in repo root"
             exit 1
           fi
-          echo "✓ No merge conflicts detected"
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "18"
-          cache: "npm"
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build project
-        run: npm run build
-        env:
-          NODE_ENV: production
-
-      - name: Deploy to cPanel via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./dist/
-          server-dir: /public_html/healingbuds.co.za/
-          dangerous-clean-slate: true
-
-      - name: Deployment Complete
+      - name: Setup SSH
         run: |
-          echo "✅ Deployment successful!"
-          echo "Site is live at: https://healingbuds.co.za"
+          mkdir -p ~/.ssh
+          echo "${{ secrets.CPANEL_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H "${{ secrets.CPANEL_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Verify cPanel Target Directory
+        run: |
+          ssh ${{ secrets.CPANEL_USER }}@${{ secrets.CPANEL_HOST }} "
+            if [ ! -d '${{ secrets.CPANEL_PATH }}' ]; then
+              echo 'Target directory does not exist. Creating it...'
+              mkdir -p '${{ secrets.CPANEL_PATH }}'
+            fi
+            echo 'Target directory verified:'
+            ls -la '${{ secrets.CPANEL_PATH }}'
+          "
+
+      - name: Deploy to cPanel
+        run: |
+          rsync -avz --delete \
+          --exclude=".git" \
+          --exclude=".github" \
+          ./ \
+          ${{ secrets.CPANEL_USER }}@${{ secrets.CPANEL_HOST }}:${{ secrets.CPANEL_PATH }}
+
+      - name: Post-Deploy Verification
+        run: |
+          ssh ${{ secrets.CPANEL_USER }}@${{ secrets.CPANEL_HOST }} "
+            echo 'Deployment complete. Live directory contents:'
+            ls -la '${{ secrets.CPANEL_PATH }}'
+          "

@@ -1,8 +1,8 @@
 {
-  "name": "sun712",
+  "name": "echo_green",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/healingbuds/sun712.git"
+    "url": "git+https://github.com/healingbuds/echo_green.git"
   },
   "private": true,
   "version": "0.0.0",
