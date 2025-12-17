@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { ChevronDown, Menu, X, LogOut } from "lucide-react";
+import { ChevronDown, Menu, X, LogOut, LayoutDashboard } from "lucide-react";
 import hbLogoWhite from "@/assets/hb-logo-white-new.png";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { cn } from "@/lib/utils";
@@ -127,7 +127,7 @@ const Header = ({ onMenuStateChange }: HeaderProps) => {
   return (
     <>
       {/* Scroll Progress Bar with Background Track */}
-      <div className="fixed top-0 left-0 right-0 h-1 bg-primary/20 z-[60]">
+      <div className="fixed top-0 left-0 right-0 sm:top-2 sm:left-2 sm:right-2 h-1 bg-primary/20 z-[60] sm:rounded-t-xl">
         <motion.div
           className="h-full bg-gradient-to-r from-primary via-secondary to-primary origin-left"
           style={{ 
@@ -140,9 +140,9 @@ const Header = ({ onMenuStateChange }: HeaderProps) => {
       <header 
         ref={headerRef}
         className={cn(
-          "fixed top-2 left-2 right-2 z-50 backdrop-blur-xl rounded-xl transition-all duration-500 ease-out border",
+          "fixed top-0 left-0 right-0 sm:top-2 sm:left-2 sm:right-2 z-50 backdrop-blur-xl rounded-none sm:rounded-xl transition-all duration-500 ease-out border-b sm:border",
           scrolled 
-            ? "shadow-2xl border-white/20 scale-[0.99]" 
+            ? "shadow-2xl border-white/20 sm:scale-[0.99]" 
             : "shadow-sm border-white/10"
         )}
         style={{ 
@@ -166,10 +166,10 @@ const Header = ({ onMenuStateChange }: HeaderProps) => {
               />
             </Link>
           
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation - Show on lg screens and up */}
           <nav className={cn(
             "hidden lg:flex items-center flex-1 justify-end transition-all duration-500 ease-out",
-            scrolled ? "gap-2 xl:gap-3" : "gap-3 xl:gap-4"
+            scrolled ? "gap-0.5 xl:gap-1 2xl:gap-2" : "gap-1 xl:gap-2 2xl:gap-3"
           )}>
             <div 
               ref={whatWeDoRef}
@@ -177,23 +177,23 @@ const Header = ({ onMenuStateChange }: HeaderProps) => {
               onMouseEnter={() => setWhatWeDoOpen(true)}
               onMouseLeave={() => setWhatWeDoOpen(false)}
             >
-              <button 
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setWhatWeDoOpen(!whatWeDoOpen);
-                  setAboutUsOpen(false);
-                }}
-                className={cn(
-                  "font-body flex items-center gap-1 font-medium transition-all duration-300 ease-out relative rounded-md hover:scale-105 whitespace-nowrap cursor-pointer select-none",
-                  scrolled ? "text-xs xl:text-sm px-2 py-1" : "text-xs xl:text-sm px-2 xl:px-3 py-1.5",
-                  isWhatWeDoActive
-                    ? "text-white bg-white/10" 
-                    : "text-white/70 hover:text-white hover:bg-white/5"
-                )}
-              >
-                {t('nav.whatWeDo')}
-                <ChevronDown className={cn("w-3 h-3 xl:w-4 xl:h-4 transition-transform duration-150 pointer-events-none", whatWeDoOpen && "rotate-180")} />
+                <button 
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setWhatWeDoOpen(!whatWeDoOpen);
+                    setAboutUsOpen(false);
+                  }}
+                  className={cn(
+                    "font-body flex items-center gap-1.5 font-semibold transition-all duration-300 ease-out relative rounded-lg hover:scale-105 whitespace-nowrap cursor-pointer select-none",
+                    scrolled ? "text-xs 2xl:text-sm px-3 py-2" : "text-sm 2xl:text-base px-4 py-2.5",
+                    isWhatWeDoActive
+                      ? "text-white bg-white/20" 
+                      : "text-white/90 hover:text-white hover:bg-white/10"
+                  )}
+                >
+                  {t('nav.whatWeDo')}
+                  <ChevronDown className={cn("w-4 h-4 transition-transform duration-150 pointer-events-none", whatWeDoOpen && "rotate-180")} />
               </button>
               
               {/* Dropdown Menu - Linear style */}
@@ -245,11 +245,11 @@ const Header = ({ onMenuStateChange }: HeaderProps) => {
             <Link 
               to="/research" 
               className={cn(
-                "font-body font-medium transition-all duration-300 ease-out rounded-md hover:scale-105 whitespace-nowrap",
-                scrolled ? "text-xs xl:text-sm px-2 py-1" : "text-xs xl:text-sm px-2 xl:px-3 py-1.5",
+                "font-body font-semibold transition-all duration-300 ease-out rounded-lg hover:scale-105 whitespace-nowrap",
+                scrolled ? "text-xs 2xl:text-sm px-3 py-2" : "text-sm 2xl:text-base px-4 py-2.5",
                 isActive("/research") 
-                  ? "text-white bg-white/10" 
-                  : "text-white/70 hover:text-white hover:bg-white/5"
+                  ? "text-white bg-white/20" 
+                  : "text-white/90 hover:text-white hover:bg-white/10"
               )}
             >
               {t('nav.research')}
@@ -257,11 +257,11 @@ const Header = ({ onMenuStateChange }: HeaderProps) => {
             <Link 
               to="/the-wire" 
               className={cn(
-                "font-body font-medium transition-all duration-300 ease-out rounded-md hover:scale-105 whitespace-nowrap",
-                scrolled ? "text-xs xl:text-sm px-2 py-1" : "text-xs xl:text-sm px-2 xl:px-3 py-1.5",
+                "font-body font-semibold transition-all duration-300 ease-out rounded-lg hover:scale-105 whitespace-nowrap",
+                scrolled ? "text-xs 2xl:text-sm px-3 py-2" : "text-sm 2xl:text-base px-4 py-2.5",
                 isActive("/the-wire") || location.pathname.startsWith("/the-wire/")
-                  ? "text-white bg-white/10" 
-                  : "text-white/70 hover:text-white hover:bg-white/5"
+                  ? "text-white bg-white/20" 
+                  : "text-white/90 hover:text-white hover:bg-white/10"
               )}
             >
               {t('nav.theWire')}
@@ -280,15 +280,15 @@ const Header = ({ onMenuStateChange }: HeaderProps) => {
                   setWhatWeDoOpen(false);
                 }}
                 className={cn(
-                  "font-body flex items-center gap-1 font-medium transition-all duration-300 ease-out relative rounded-md hover:scale-105 whitespace-nowrap cursor-pointer select-none",
-                  scrolled ? "text-xs xl:text-sm px-2 py-1" : "text-xs xl:text-sm px-2 xl:px-3 py-1.5",
+                  "font-body flex items-center gap-1.5 font-semibold transition-all duration-300 ease-out relative rounded-lg hover:scale-105 whitespace-nowrap cursor-pointer select-none",
+                  scrolled ? "text-xs 2xl:text-sm px-3 py-2" : "text-sm 2xl:text-base px-4 py-2.5",
                   isAboutUsActive
-                    ? "text-white bg-white/10" 
-                    : "text-white/70 hover:text-white hover:bg-white/5"
+                    ? "text-white bg-white/20" 
+                    : "text-white/90 hover:text-white hover:bg-white/10"
                 )}
               >
                 {t('nav.aboutUs')}
-                <ChevronDown className={cn("w-3 h-3 xl:w-4 xl:h-4 transition-transform duration-150 pointer-events-none", aboutUsOpen && "rotate-180")} />
+                <ChevronDown className={cn("w-4 h-4 transition-transform duration-150 pointer-events-none", aboutUsOpen && "rotate-180")} />
               </button>
               
               {/* Dropdown Menu */}
@@ -322,13 +322,25 @@ const Header = ({ onMenuStateChange }: HeaderProps) => {
               </AnimatePresence>
             </div>
             <Link 
+              to="/shop" 
+              className={cn(
+                "font-body font-semibold transition-all duration-300 ease-out rounded-lg hover:scale-105 whitespace-nowrap",
+                scrolled ? "text-xs 2xl:text-sm px-3 py-2" : "text-sm 2xl:text-base px-4 py-2.5",
+                isActive("/shop") || location.pathname.startsWith("/shop/")
+                  ? "text-white bg-white/20" 
+                  : "text-white/90 hover:text-white hover:bg-white/10"
+              )}
+            >
+              {t('nav.shop')}
+            </Link>
+            <Link 
               to="/contact" 
               className={cn(
-                "font-body font-medium transition-all duration-300 ease-out rounded-md hover:scale-105 whitespace-nowrap",
-                scrolled ? "text-xs xl:text-sm px-2 py-1" : "text-xs xl:text-sm px-2 xl:px-3 py-1.5",
+                "font-body font-semibold transition-all duration-300 ease-out rounded-lg hover:scale-105 whitespace-nowrap",
+                scrolled ? "text-xs 2xl:text-sm px-3 py-2" : "text-sm 2xl:text-base px-4 py-2.5",
                 isActive("/contact") 
-                  ? "text-white bg-white/10" 
-                  : "text-white/70 hover:text-white hover:bg-white/5"
+                  ? "text-white bg-white/20" 
+                  : "text-white/90 hover:text-white hover:bg-white/10"
               )}
             >
               {t('nav.contactUs')}
@@ -345,47 +357,56 @@ const Header = ({ onMenuStateChange }: HeaderProps) => {
               <button
                 onClick={() => setEligibilityDialogOpen(true)}
                 className={cn(
-                  "font-body font-semibold px-3 xl:px-5 py-2 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-xl relative z-10 whitespace-nowrap",
-                  "backdrop-blur-2xl bg-gradient-to-br from-white/35 via-white/25 to-white/15",
-                  "dark:from-white/25 dark:via-white/15 dark:to-white/10",
-                  "border border-white/50 shadow-lg hover:border-white/70",
-                  "text-white hover:bg-white/35",
-                  scrolled ? "text-xs xl:text-sm" : "text-xs xl:text-sm"
+                  "font-body font-bold px-4 py-2 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-xl relative z-10 whitespace-nowrap",
+                  "bg-white/95 text-[#2A3D3A] hover:bg-white",
+                  "border-2 border-white shadow-lg",
+                  "text-xs 2xl:text-sm"
                 )}
               >
-                <span className="hidden xl:inline">{t('nav.checkEligibility')}</span>
-                <span className="xl:hidden">Eligibility</span>
+                <span className="hidden 2xl:inline">{t('nav.checkEligibility')}</span>
+                <span className="2xl:hidden">Eligibility</span>
               </button>
               {user ? (
-                <button
-                  onClick={handleLogout}
-                  className={cn(
-                    "font-body font-semibold px-3 xl:px-5 py-2 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-xl relative z-10 whitespace-nowrap",
-                    "backdrop-blur-2xl bg-gradient-to-br from-white/25 via-white/18 to-white/12",
-                    "dark:from-white/20 dark:via-white/12 dark:to-white/8",
-                    "border border-white/40 shadow-lg hover:border-white/60",
-                    "text-white hover:bg-white/30 flex items-center gap-1.5",
-                    scrolled ? "text-xs xl:text-sm" : "text-xs xl:text-sm"
-                  )}
-                >
-                  <LogOut className="w-3.5 h-3.5" />
-                  <span className="hidden xl:inline">{t('nav.signOut')}</span>
-                  <span className="xl:hidden">Sign Out</span>
-                </button>
+                <>
+                  <Link
+                    to="/dashboard"
+                    className={cn(
+                      "font-body font-bold px-4 py-2 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-xl relative z-10 whitespace-nowrap",
+                      "bg-primary text-white hover:bg-primary/90",
+                      "border-2 border-primary shadow-lg flex items-center gap-1.5",
+                      "text-xs 2xl:text-sm"
+                    )}
+                  >
+                    <LayoutDashboard className="w-4 h-4" />
+                    <span className="hidden 2xl:inline">Patient Portal</span>
+                    <span className="2xl:hidden">Portal</span>
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className={cn(
+                      "font-body font-bold px-4 py-2 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-xl relative z-10 whitespace-nowrap",
+                      "bg-transparent text-white hover:bg-white/20",
+                      "border-2 border-white/60 shadow-lg flex items-center gap-1.5",
+                      "text-xs 2xl:text-sm"
+                    )}
+                  >
+                    <LogOut className="w-4 h-4" />
+                    <span className="hidden 2xl:inline">{t('nav.signOut')}</span>
+                    <span className="2xl:hidden">Out</span>
+                  </button>
+                </>
               ) : (
                 <Link
                   to="/auth"
                   className={cn(
-                    "font-body font-semibold px-3 xl:px-5 py-2 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-xl relative z-10 whitespace-nowrap",
-                    "backdrop-blur-2xl bg-gradient-to-br from-white/25 via-white/18 to-white/12",
-                    "dark:from-white/20 dark:via-white/12 dark:to-white/8",
-                    "border border-white/40 shadow-lg hover:border-white/60",
-                    "text-white hover:bg-white/30",
-                    scrolled ? "text-xs xl:text-sm" : "text-xs xl:text-sm"
+                    "font-body font-bold px-4 py-2 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-xl relative z-10 whitespace-nowrap",
+                    "bg-transparent text-white hover:bg-white/20",
+                    "border-2 border-white/60 shadow-lg",
+                    "text-xs 2xl:text-sm"
                   )}
                 >
-                  <span className="hidden xl:inline">{t('nav.patientLogin')}</span>
-                  <span className="xl:hidden">Login</span>
+                  <span className="hidden 2xl:inline">{t('nav.patientLogin')}</span>
+                  <span className="2xl:hidden">Login</span>
                 </Link>
               )}
             </div>
@@ -570,6 +591,17 @@ const Header = ({ onMenuStateChange }: HeaderProps) => {
                     </div>
 
                     <Link 
+                      to="/shop" 
+                      className={cn(
+                        "text-base transition-all duration-200 py-4 px-5 rounded-xl touch-manipulation min-h-[56px] flex items-center active:scale-[0.98]",
+                        isActive("/shop") || location.pathname.startsWith("/shop/") ? "text-white font-semibold bg-white/15" : "text-white/70 hover:text-white hover:bg-white/5 active:bg-white/10"
+                      )}
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {t('nav.shop')}
+                    </Link>
+
+                    <Link 
                       to="/contact" 
                       className={cn(
                         "text-base transition-all duration-200 py-4 px-5 rounded-xl touch-manipulation min-h-[56px] flex items-center active:scale-[0.98]",
@@ -597,14 +629,24 @@ const Header = ({ onMenuStateChange }: HeaderProps) => {
                       {t('nav.checkEligibility')}
                     </button>
                     {user ? (
-                      <button
-                        type="button"
-                        onClick={handleLogout}
-                        className="w-full font-body font-semibold px-6 py-5 rounded-2xl transition-all duration-300 ease-out active:scale-[0.96] shadow-lg backdrop-blur-2xl bg-gradient-to-br from-white/25 via-white/18 to-white/12 border border-white/40 text-white text-base flex items-center justify-center gap-2 hover:from-white/35 hover:via-white/28 hover:to-white/22 hover:border-white/60 hover:shadow-xl touch-manipulation min-h-[60px]"
-                      >
-                        <LogOut className="w-5 h-5" />
-                        {t('nav.signOut')}
-                      </button>
+                      <>
+                        <Link
+                          to="/dashboard"
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="w-full font-body font-semibold px-6 py-5 rounded-2xl transition-all duration-300 ease-out active:scale-[0.96] shadow-lg backdrop-blur-2xl bg-gradient-to-br from-primary/40 via-primary/30 to-primary/20 border border-primary/50 text-white text-base flex items-center justify-center gap-2 hover:border-primary/70 hover:shadow-xl touch-manipulation min-h-[60px]"
+                        >
+                          <LayoutDashboard className="w-5 h-5" />
+                          Patient Portal
+                        </Link>
+                        <button
+                          type="button"
+                          onClick={handleLogout}
+                          className="w-full font-body font-semibold px-6 py-5 rounded-2xl transition-all duration-300 ease-out active:scale-[0.96] shadow-lg backdrop-blur-2xl bg-gradient-to-br from-white/25 via-white/18 to-white/12 border border-white/40 text-white text-base flex items-center justify-center gap-2 hover:from-white/35 hover:via-white/28 hover:to-white/22 hover:border-white/60 hover:shadow-xl touch-manipulation min-h-[60px]"
+                        >
+                          <LogOut className="w-5 h-5" />
+                          {t('nav.signOut')}
+                        </button>
+                      </>
                     ) : (
                       <Link
                         to="/auth"

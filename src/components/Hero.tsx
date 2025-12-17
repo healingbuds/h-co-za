@@ -71,7 +71,7 @@ const Hero = () => {
       {/* Video Background with Parallax */}
       <motion.div 
         style={{ y: videoY }}
-        className="absolute left-2 right-2 top-24 sm:top-28 md:top-32 bottom-4 rounded-2xl sm:rounded-3xl overflow-hidden z-0 shadow-2xl"
+        className="absolute left-0 right-0 top-20 sm:left-2 sm:right-2 sm:top-28 md:top-32 bottom-4 rounded-b-2xl sm:rounded-2xl md:rounded-3xl overflow-hidden z-0 shadow-2xl"
       >
         {/* Particle overlay */}
         <ParticleField particleCount={40} className="z-10" />
@@ -128,9 +128,9 @@ const Hero = () => {
       >
         <div className="max-w-5xl text-left relative">
           {/* Welcome text with reveal animation */}
-          <div className="overflow-hidden">
+          <div className="pb-2">
             <motion.h1 
-              className="font-pharma text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-semibold text-white mb-2 leading-[1.1] tracking-tight drop-shadow-lg"
+              className="font-pharma text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-semibold text-white mb-2 leading-[1.15] tracking-tight drop-shadow-lg"
             >
               <motion.span
                 initial="hidden"
@@ -145,9 +145,9 @@ const Hero = () => {
           </div>
           
           {/* Brand name with staggered letter animation */}
-          <div className="overflow-hidden mb-6 sm:mb-8">
+          <div className="pb-4 mb-6 sm:mb-8">
             <motion.h1 
-              className="font-pharma text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-semibold text-white leading-[1.1] tracking-tight drop-shadow-lg"
+              className="font-pharma text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-semibold text-white leading-[1.15] tracking-tight drop-shadow-lg"
             >
               <motion.span
                 initial="hidden"

@@ -5,9 +5,11 @@
     "theWire": "The Wire",
     "aboutUs": "About Us",
     "contactUs": "Contact Us",
+    "shop": "Dispensary",
     "checkEligibility": "Check Eligibility",
     "patientLogin": "Patient Login",
-    "signOut": "Sign Out"
+    "signOut": "Sign Out",
+    "dashboard": "Dashboard"
   },
   "dropdown": {
     "cultivating": "Cultivating & Processing",

@@ -29,8 +29,8 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 176 39% 17%;
 
-    /* Primary & Secondary using brand colors */
-    --primary: 164 48% 53%;             /* Accent Light Green */
+    /* Primary & Secondary using brand colors - sage teal matching nav */
+    --primary: 175 42% 35%;               /* Sage-teal matching navbar tone */
     --primary-foreground: 0 0% 98%;
 
     --secondary: 178 48% 33%;           /* Secondary Green */
@@ -132,33 +132,46 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 150 20% 8%;
-    --foreground: 150 10% 95%;
+    /* MEDICAL DARK THEME - Clean, professional, high readability */
+    /* Base: neutral charcoal, no green tint */
+    --background: 210 12% 8%;             /* Neutral near-black with slight cool tone */
+    --foreground: 0 0% 96%;               /* Bright off-white for maximum readability */
 
-    --card: 150 18% 12%;
-    --card-foreground: 150 10% 95%;
+    /* Cards: subtle lift from background */
+    --card: 210 8% 12%;                   /* Neutral dark gray */
+    --card-foreground: 0 0% 95%;
 
-    --popover: 150 18% 12%;
-    --popover-foreground: 150 10% 95%;
+    --popover: 210 8% 13%;
+    --popover-foreground: 0 0% 95%;
 
-    --primary: 155 60% 45%;
+    /* Primary - softer sage-teal, calmer for medical */
+    --primary: 172 32% 42%;               /* Soft sage-teal, professional */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 45 80% 50%;
-    --secondary-foreground: 150 15% 15%;
+    /* Secondary - neutral warm for balance */
+    --secondary: 210 6% 20%;              /* Neutral secondary surface */
+    --secondary-foreground: 0 0% 92%;
 
-    --muted: 150 15% 18%;
-    --muted-foreground: 150 10% 60%;
+    /* Muted surfaces - improved contrast */
+    --muted: 210 6% 16%;
+    --muted-foreground: 210 8% 65%;       /* Higher contrast muted text */
 
-    --accent: 155 40% 20%;
-    --accent-foreground: 155 60% 45%;
+    /* Accent - subtle sage for highlights only */
+    --accent: 172 18% 20%;
+    --accent-foreground: 172 25% 70%;
 
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 55% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 150 15% 20%;
-    --input: 150 15% 20%;
-    --ring: 155 60% 45%;
+    /* Borders and inputs - softer */
+    --border: 210 6% 22%;
+    --input: 210 6% 16%;
+    --ring: 172 32% 42%;
+    
+    /* Status colors for medical UX */
+    --success: 152 45% 45%;               /* Cleaner green for verified states */
+    --warning: 38 75% 55%;                /* Warm amber for attention */
+    --info: 200 60% 50%;                  /* Calm blue for info */
   }
 }
 
@@ -318,15 +331,28 @@ All colors MUST be HSL.
     @apply bg-background/50 backdrop-blur-sm border border-border/30 rounded-xl;
   }
   
-  /* Accent green glow effects */
+  /* Softened glow effects - medical restraint */
   .glow-accent {
     @apply shadow-lg;
-    box-shadow: 0 0 20px rgba(77, 191, 161, 0.3);
+    box-shadow: 0 0 12px rgba(77, 170, 140, 0.15);
   }
   
   .glow-accent-strong {
     @apply shadow-xl;
-    box-shadow: 0 0 30px rgba(77, 191, 161, 0.5);
+    box-shadow: 0 0 20px rgba(77, 170, 140, 0.25);
+  }
+  
+  /* Medical status indicators - green only for success */
+  .status-verified {
+    @apply text-primary bg-primary/10 border border-primary/20;
+  }
+  
+  .status-pending {
+    @apply text-muted-foreground bg-muted border border-border;
+  }
+  
+  .status-attention {
+    @apply text-amber-400 bg-amber-400/10 border border-amber-400/20;
   }
   
   /* Safe area for iOS devices */
@@ -449,18 +475,18 @@ All colors MUST be HSL.
   }
 }
 
-/* Pulsing glow animation for glass cards */
+/* Subtle pulse animation - medical restraint, no harsh glow */
 @keyframes pulse-glow {
   0%, 100% {
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37), 0 2px 8px 0 rgba(0, 0, 0, 0.1), 0 0 20px rgba(20, 184, 166, 0.3);
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.2), 0 1px 4px 0 rgba(0, 0, 0, 0.1);
   }
   50% {
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.5), 0 2px 8px 0 rgba(0, 0, 0, 0.15), 0 0 30px rgba(20, 184, 166, 0.5);
+    box-shadow: 0 6px 24px 0 rgba(0, 0, 0, 0.25), 0 2px 6px 0 rgba(0, 0, 0, 0.12);
   }
 }
 
 .animate-pulse-glow {
-  animation: pulse-glow 3s ease-in-out infinite;
+  animation: pulse-glow 4s ease-in-out infinite;
 }
 
 /* NProgress customization to match brand */
@@ -491,10 +517,20 @@ All colors MUST be HSL.
 }
 
 .dark #nprogress .bar {
-  background: linear-gradient(90deg, hsl(155 60% 45%), hsl(45 80% 50%));
-  box-shadow: 0 0 10px hsl(155 60% 45% / 0.5), 0 0 5px hsl(155 60% 45% / 0.3);
+  background: linear-gradient(90deg, hsl(155 38% 45%), hsl(200 50% 50%));
+  box-shadow: 0 0 6px hsl(155 38% 45% / 0.3);
 }
 
 .dark #nprogress .peg {
-  box-shadow: 0 0 10px hsl(155 60% 45%), 0 0 5px hsl(155 60% 45%);
+  box-shadow: 0 0 6px hsl(155 38% 45% / 0.4);
+}
+
+/* Shimmer animation for loading skeletons */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }

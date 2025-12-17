@@ -5,9 +5,11 @@
     "theWire": "Notícias",
     "aboutUs": "Sobre Nós",
     "contactUs": "Contacte-nos",
+    "shop": "Dispensário",
     "checkEligibility": "Verificar Elegibilidade",
     "patientLogin": "Login do Paciente",
-    "signOut": "Sair"
+    "signOut": "Sair",
+    "dashboard": "Painel"
   },
   "dropdown": {
     "cultivating": "Cultivo e Processamento",
