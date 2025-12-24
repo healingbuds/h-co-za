@@ -25,7 +25,7 @@ const NavigationMenu = ({ scrolled, onCloseAllDropdowns }: NavigationMenuProps) 
   // Navigation item styles - WCAG AA compliant
   const navItemBase = cn(
     "font-body font-semibold transition-all duration-200 ease-out rounded-lg",
-    "whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+    "whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
   );
   
   const navItemSize = scrolled ? "text-xs xl:text-sm px-3 py-2" : "text-sm xl:text-base px-4 py-2.5";
