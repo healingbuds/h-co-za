@@ -1,10 +1,10 @@
-CREATE EXTENSION IF NOT EXISTS "pg_cron" WITH SCHEMA "pg_catalog";
-CREATE EXTENSION IF NOT EXISTS "pg_graphql" WITH SCHEMA "graphql";
-CREATE EXTENSION IF NOT EXISTS "pg_net" WITH SCHEMA "public";
+CREATE EXTENSION IF NOT EXISTS "pg_cron";
+CREATE EXTENSION IF NOT EXISTS "pg_graphql";
+CREATE EXTENSION IF NOT EXISTS "pg_net";
 CREATE EXTENSION IF NOT EXISTS "pg_stat_statements" WITH SCHEMA "extensions";
 CREATE EXTENSION IF NOT EXISTS "pgcrypto" WITH SCHEMA "extensions";
-CREATE EXTENSION IF NOT EXISTS "plpgsql" WITH SCHEMA "pg_catalog";
-CREATE EXTENSION IF NOT EXISTS "supabase_vault" WITH SCHEMA "vault";
+CREATE EXTENSION IF NOT EXISTS "plpgsql";
+CREATE EXTENSION IF NOT EXISTS "supabase_vault";
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA "extensions";
 BEGIN;
 
@@ -185,6 +185,21 @@ CREATE TABLE public.generated_product_images (
 
 
 --
+-- Name: kyc_journey_logs; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.kyc_journey_logs (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    user_id uuid NOT NULL,
+    client_id text NOT NULL,
+    event_type text NOT NULL,
+    event_source text NOT NULL,
+    event_data jsonb DEFAULT '{}'::jsonb,
+    created_at timestamp with time zone DEFAULT now()
+);
+
+
+--
 -- Name: prescription_documents; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -359,6 +374,14 @@ ALTER TABLE ONLY public.generated_product_images
 
 
 --
+-- Name: kyc_journey_logs kyc_journey_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.kyc_journey_logs
+    ADD CONSTRAINT kyc_journey_logs_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: prescription_documents prescription_documents_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -427,6 +450,34 @@ ALTER TABLE ONLY public.user_roles
 --
 
 CREATE INDEX idx_generated_product_images_product_id ON public.generated_product_images USING btree (product_id);
+
+
+--
+-- Name: idx_kyc_journey_logs_client_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_kyc_journey_logs_client_id ON public.kyc_journey_logs USING btree (client_id);
+
+
+--
+-- Name: idx_kyc_journey_logs_created_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_kyc_journey_logs_created_at ON public.kyc_journey_logs USING btree (created_at DESC);
+
+
+--
+-- Name: idx_kyc_journey_logs_event_type; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_kyc_journey_logs_event_type ON public.kyc_journey_logs USING btree (event_type);
+
+
+--
+-- Name: idx_kyc_journey_logs_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_kyc_journey_logs_user_id ON public.kyc_journey_logs USING btree (user_id);
 
 
 --
@@ -598,6 +649,13 @@ CREATE POLICY "Admins can manage strains" ON public.strains USING (public.has_ro
 
 
 --
+-- Name: kyc_journey_logs Admins can read all journey logs; Type: POLICY; Schema: public; Owner: -
+--
+
+CREATE POLICY "Admins can read all journey logs" ON public.kyc_journey_logs FOR SELECT USING (public.has_role(auth.uid(), 'admin'::public.app_role));
+
+
+--
 -- Name: prescription_documents Admins can update all prescription documents; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -668,6 +726,13 @@ CREATE POLICY "Users can insert into their own cart" ON public.drgreen_cart FOR 
 
 
 --
+-- Name: kyc_journey_logs Users can insert own journey logs; Type: POLICY; Schema: public; Owner: -
+--
+
+CREATE POLICY "Users can insert own journey logs" ON public.kyc_journey_logs FOR INSERT WITH CHECK ((auth.uid() = user_id));
+
+
+--
 -- Name: dosage_logs Users can insert their own dosage logs; Type: POLICY; Schema: public; Owner: -
 --
 
@@ -700,6 +765,13 @@ CREATE POLICY "Users can insert their own prescription documents" ON public.pres
 --
 
 CREATE POLICY "Users can insert their own profile" ON public.profiles FOR INSERT TO authenticated WITH CHECK ((auth.uid() = id));
+
+
+--
+-- Name: kyc_journey_logs Users can read own journey logs; Type: POLICY; Schema: public; Owner: -
+--
+
+CREATE POLICY "Users can read own journey logs" ON public.kyc_journey_logs FOR SELECT USING ((auth.uid() = user_id));
 
 
 --
@@ -822,6 +894,12 @@ ALTER TABLE public.drgreen_orders ENABLE ROW LEVEL SECURITY;
 --
 
 ALTER TABLE public.generated_product_images ENABLE ROW LEVEL SECURITY;
+
+--
+-- Name: kyc_journey_logs; Type: ROW SECURITY; Schema: public; Owner: -
+--
+
+ALTER TABLE public.kyc_journey_logs ENABLE ROW LEVEL SECURITY;
 
 --
 -- Name: prescription_documents; Type: ROW SECURITY; Schema: public; Owner: -
