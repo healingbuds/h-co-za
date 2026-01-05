@@ -364,15 +364,26 @@ const PatientDashboard = () => {
                         <p className="font-medium">{drGreenClient.country_code}</p>
                       </div>
                     )}
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="w-full justify-start"
-                      onClick={() => navigate('/account/change-password')}
-                    >
-                      <Lock className="mr-2 h-4 w-4" />
-                      Change Password
-                    </Button>
+                    <div className="grid gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="w-full justify-start"
+                        onClick={() => navigate('/account/settings')}
+                      >
+                        <User className="mr-2 h-4 w-4" />
+                        Account Settings
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="w-full justify-start text-muted-foreground"
+                        onClick={() => navigate('/account/change-password')}
+                      >
+                        <Lock className="mr-2 h-4 w-4" />
+                        Change Password
+                      </Button>
+                    </div>
                   </CardContent>
                 </Card>
               </div>

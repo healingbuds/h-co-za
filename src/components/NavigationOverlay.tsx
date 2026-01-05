@@ -5,7 +5,7 @@
  */
 
 import { Link, useLocation } from "react-router-dom";
-import { X, LogOut, LayoutDashboard, User, FileText, ClipboardCheck, ShoppingBag, HeadphonesIcon, Home, Shield } from "lucide-react";
+import { X, LogOut, LayoutDashboard, User, FileText, ClipboardCheck, ShoppingBag, HeadphonesIcon, Home, Shield, Settings } from "lucide-react";
 import { useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
@@ -262,6 +262,19 @@ const NavigationOverlay = ({
                         <LayoutDashboard className="w-5 h-5 text-[#EAB308]" />
                       )}
                       <span className="font-medium">{isAdmin ? "Admin Portal" : "Patient Portal"}</span>
+                    </Link>
+                    <Link
+                      to="/account/settings"
+                      onClick={onClose}
+                      className={cn(
+                        "flex items-center gap-4 py-4 px-5 rounded-xl transition-all duration-200",
+                        "touch-manipulation min-h-[56px] active:scale-[0.98]",
+                        "bg-white/10 text-white hover:bg-white/15 border border-white/20",
+                        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#EAB308]/50"
+                      )}
+                    >
+                      <Settings className="w-5 h-5 text-white/70" />
+                      <span className="font-medium">Account Settings</span>
                     </Link>
                     <button
                       onClick={handleLogout}
