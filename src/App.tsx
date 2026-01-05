@@ -43,6 +43,7 @@ const Orders = lazy(() => import("./pages/Orders"));
 const DashboardStatus = lazy(() => import("./pages/DashboardStatus"));
 const PatientDashboard = lazy(() => import("./pages/PatientDashboard"));
 const ChangePassword = lazy(() => import("./pages/ChangePassword"));
+const AccountSettings = lazy(() => import("./pages/AccountSettings"));
 const AdminPrescriptions = lazy(() => import("./pages/AdminPrescriptions"));
 const AdminStrains = lazy(() => import("./pages/AdminStrains"));
 const AdminStrainSync = lazy(() => import("./pages/AdminStrainSync"));
@@ -76,6 +77,7 @@ const AnimatedRoutes = () => {
           <Route path="/dashboard" element={<PatientDashboard />} />
           <Route path="/dashboard/status" element={<DashboardStatus />} />
           <Route path="/account/change-password" element={<ChangePassword />} />
+          <Route path="/account/settings" element={<AccountSettings />} />
           <Route path="/orders" element={
             <ComplianceGuard>
               <Orders />

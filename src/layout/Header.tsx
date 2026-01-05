@@ -7,7 +7,7 @@
  */
 
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { LogOut, LayoutDashboard, User, Shield } from "lucide-react";
+import { LogOut, LayoutDashboard, User, Shield, Settings, Lock, ChevronDown } from "lucide-react";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { useState, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
@@ -26,6 +26,15 @@ import NavigationOverlay from "@/components/NavigationOverlay";
 import AnimatedMenuButton from "@/components/AnimatedMenuButton";
 import { WalletButton } from "@/components/WalletConnectionModal";
 import { KYCStatusBadge } from "@/components/KYCStatusBadge";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface HeaderProps {
   onMenuStateChange?: (isOpen: boolean) => void;
@@ -195,29 +204,59 @@ const Header = ({ onMenuStateChange }: HeaderProps) => {
                   </button>
                   
                   {user ? (
-                    <>
-                      <Link
-                        to={isAdmin ? "/admin" : "/dashboard"}
-                        className={cn(
-                          "font-medium px-4 py-2.5 rounded-lg transition-all duration-300",
-                          "bg-white/10 text-white hover:bg-white/20 border border-white/20 hover:border-[#EAB308]/50",
-                          "text-sm flex items-center gap-2"
-                        )}
-                      >
-                        {isAdmin ? <Shield className="w-4 h-4" /> : <LayoutDashboard className="w-4 h-4" />}
-                        {isAdmin ? "Admin Portal" : "Portal"}
-                      </Link>
-                      <button
-                        onClick={handleLogout}
-                        className={cn(
-                          "p-2.5 rounded-lg transition-all duration-300",
-                          "text-white/70 hover:text-white hover:bg-white/10"
-                        )}
-                        title={t('nav.signOut')}
-                      >
-                        <LogOut className="w-4 h-4" />
-                      </button>
-                    </>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <button
+                          className={cn(
+                            "font-medium px-3 py-2 rounded-lg transition-all duration-300",
+                            "bg-white/10 text-white hover:bg-white/20 border border-white/20 hover:border-[#EAB308]/50",
+                            "text-sm flex items-center gap-2"
+                          )}
+                        >
+                          <Avatar className="h-6 w-6">
+                            <AvatarFallback className="text-xs bg-primary/20 text-white">
+                              {user.email?.charAt(0).toUpperCase() || 'U'}
+                            </AvatarFallback>
+                          </Avatar>
+                          <span className="hidden lg:inline max-w-[120px] truncate">{user.email}</span>
+                          <ChevronDown className="w-4 h-4 opacity-70" />
+                        </button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end" className="w-56 bg-popover border-border">
+                        <DropdownMenuLabel className="font-normal">
+                          <div className="flex flex-col space-y-1">
+                            <p className="text-sm font-medium">{user.email}</p>
+                            <p className="text-xs text-muted-foreground">
+                              {isAdmin ? 'Administrator' : 'Patient Account'}
+                            </p>
+                          </div>
+                        </DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem asChild>
+                          <Link to={isAdmin ? "/admin" : "/dashboard"} className="cursor-pointer">
+                            {isAdmin ? <Shield className="mr-2 h-4 w-4" /> : <LayoutDashboard className="mr-2 h-4 w-4" />}
+                            {isAdmin ? "Admin Portal" : "My Dashboard"}
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                          <Link to="/account/settings" className="cursor-pointer">
+                            <Settings className="mr-2 h-4 w-4" />
+                            Account Settings
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                          <Link to="/account/change-password" className="cursor-pointer">
+                            <Lock className="mr-2 h-4 w-4" />
+                            Change Password
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-destructive focus:text-destructive">
+                          <LogOut className="mr-2 h-4 w-4" />
+                          {t('nav.signOut')}
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   ) : (
                     <Link
                       to="/auth"
